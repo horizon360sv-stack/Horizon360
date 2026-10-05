@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cotización | Horizon 360</title>
+  <meta name="description" content="Horizon 360: fotografía y videografía aérea con dron y recorridos virtuales 360°.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ===== HEADER (igual en todas las páginas) ===== -->
+  <header class="header">
+    <div class="contenedor header-inner">
+      <a class="logo" href="index.html">
+        <img src="img/logo.png" alt="Logo Horizon 360">
+        <span>HORIZON 360</span>
+      </a>
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="cotizacion.html" class="activo" aria-current="page">Cotización</a>
+        <a href="proyectos.html">Proyectos</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="pagina-titulo">
+    <div class="contenedor">
+      <h1>Solicita tu cotización</h1>
+      <p>Elige el servicio, indica cuántas tomas necesitas y cuéntanos dónde será. Te respondemos con una propuesta personalizada.</p>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <form class="formulario" id="form-cotizacion">
+        <div class="campo">
+          <label for="servicio">Servicio / plan base</label>
+          <!-- data-precio = precio base en USD. EDITA estos valores con tus precios reales -->
+          <select id="servicio" required>
+            <option value="Plan Base 360 (5 panorámicas)" data-precio="50">Plan Base 360 (5 panorámicas)</option>
+            <option value="Inspección Aérea" data-precio="40">Inspección Aérea</option>
+            <option value="Video Dron Comercial" data-precio="80">Video Dron Comercial</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="cantidad">Panorámicas o fotos adicionales</label>
+          <input type="number" id="cantidad" min="0" value="0">
+        </div>
+        <div class="campo">
+          <label for="horario">Horario / iluminación</label>
+          <select id="horario">
+            <option value="Día" data-extra="0">Día (sin costo extra)</option>
+            <option value="Amanecer" data-extra="2">Amanecer (+$2.00 por toma)</option>
+            <option value="Atardecer / Hora dorada" data-extra="2">Atardecer / Hora dorada (+$2.00 por toma)</option>
+            <option value="Noche" data-extra="2">Noche (+$2.00 por toma)</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="detalles">Detalles del proyecto o ubicación</label>
+          <textarea id="detalles" rows="4" placeholder="Ej.: casa de 2 niveles en…, fecha deseada…" required></textarea>
+        </div>
+
+        <div class="estimado" aria-live="polite">
+          <span>Estimado (referencial)</span><strong id="total">$0.00</strong>
+        </div>
+
+        <div class="pago">
+          <div>
+            <h3>Método de pago</h3>
+            <p>Para reservar tu fecha se requiere un <strong>50% de anticipo</strong> mediante pago con <strong>código QR</strong>. El saldo se cancela al entregar el trabajo.</p>
+          </div>
+          <!-- Cuando tengas tu QR: <img src="img/qr-pago.png" alt="QR de pago" width="130"> -->
+          <div class="qr-caja">Aquí irá tu código QR</div>
+        </div>
+
+        <button class="btn" type="submit">Enviar solicitud</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    // Calcula el estimado: precio base + (cantidad x recargo por horario)
+    const f = document.getElementById('form-cotizacion');
+    const total = document.getElementById('total');
+    function calcular() {
+      const base = +f.servicio.selectedOptions[0].dataset.precio;
+      const extra = +f.horario.selectedOptions[0].dataset.extra;
+      const n = +f.cantidad.value || 0;
+      const t = base + n * extra;
+      total.textContent = '$' + t.toFixed(2);
+      return t;
+    }
+    f.addEventListener('input', calcular); calcular();
+
+    // Al enviar, abre el correo con los datos. CAMBIA el correo por el tuyo.
+    f.addEventListener('submit', e => {
+      e.preventDefault();
+      const cuerpo = `Servicio: ${f.servicio.value}\nAdicionales: ${f.cantidad.value}\nHorario: ${f.horario.value}\nEstimado: $${calcular().toFixed(2)}\nDetalles: ${f.detalles.value}`;
+      location.href = 'mailto:contacto@tudominio.com?subject=' + encodeURIComponent('Cotización Horizon 360') + '&body=' + encodeURIComponent(cuerpo);
+    });
+  </script>
+
+  <!-- ===== FOOTER (igual en todas las páginas) ===== -->
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer-grid">
+        <div><h4>Horizon 360</h4><p>Capturando el mundo desde una nueva dimensión.</p></div>
+        <div><h4>Enlaces rápidos</h4>
+          <a href="index.html">Inicio</a><a href="index.html#servicios">Servicios</a>
+          <a href="cotizacion.html">Cotización</a><a href="proyectos.html">Proyectos</a></div>
+        <div><h4>Síguenos</h4>
+          <!-- Reemplaza # por tus enlaces reales -->
+          <a href="#">Facebook</a><a href="#">Instagram</a><a href="#">YouTube</a><a href="#">TikTok</a></div>
+      </div>
+      <p class="footer-copy">&copy; 2026 Horizon 360. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>
