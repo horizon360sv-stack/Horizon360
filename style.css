@@ -3,12 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     font-family: 'Montserrat', sans-serif;
     color: #333;
 }
-
 header {
     background-color: #0d381e;
     color: #fff;
@@ -17,63 +15,47 @@ header {
     justify-content: space-between;
     align-items: center;
 }
-
 header .logo {
     display: flex;
     align-items: center;
     font-weight: 700;
 }
-
 header .logo img {
     height: 50px;
     margin-right: 10px;
 }
-
 nav ul {
     list-style: none;
     display: flex;
 }
-
 nav ul li {
     margin-left: 20px;
 }
-
 nav ul li a {
     color: #fff;
     text-decoration: none;
     font-weight: 700;
 }
-
-#inicio {
-    background-color: #f4f4f4;
+main {
     padding: 4rem 2rem;
     text-align: center;
 }
-
-#cotizacion {
-    padding: 4rem 2rem;
-    background-color: #fff;
-}
-
 form {
     max-width: 500px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
-
 form label {
     margin-top: 15px;
     font-weight: 700;
 }
-
 form input, form select, form button {
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-
 form button {
     background-color: #0d381e;
     color: #fff;
@@ -81,32 +63,23 @@ form button {
     margin-top: 20px;
     cursor: pointer;
 }
-
-#proyectos {
-    padding: 4rem 2rem;
-    background-color: #f4f4f4;
-}
-
 .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     margin-top: 20px;
 }
-
 .project-card {
     background-color: #fff;
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 .project-card img {
     width: 100%;
     height: 200px;
     object-fit: cover;
 }
-
 .project-card h3 {
     padding: 15px;
     text-align: center;
