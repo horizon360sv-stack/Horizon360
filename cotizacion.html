@@ -28,77 +28,172 @@
   <section class="pagina-titulo">
     <div class="contenedor">
       <h1>Solicita tu cotización</h1>
-      <p>Elige el servicio, indica cuántas tomas necesitas y cuéntanos dónde será. Te respondemos con una propuesta personalizada.</p>
+      <p>Elige el servicio, marca los horarios que prefieres y deja tus datos. El precio se calcula solo y yo te respondo con la confirmación y la fecha.</p>
     </div>
   </section>
 
   <section class="seccion">
     <div class="contenedor">
-      <form class="formulario" id="form-cotizacion">
-        <div class="campo">
-          <label for="servicio">Servicio / plan base</label>
-          <!-- data-precio = precio base en USD. EDITA estos valores con tus precios reales -->
-          <select id="servicio" required>
-            <option value="Plan Base 360 (5 panorámicas)" data-precio="50">Plan Base 360 (5 panorámicas)</option>
-            <option value="Inspección Aérea" data-precio="40">Inspección Aérea</option>
-            <option value="Video Dron Comercial" data-precio="80">Video Dron Comercial</option>
-          </select>
-        </div>
-        <div class="campo">
-          <label for="cantidad">Panorámicas o fotos adicionales</label>
-          <input type="number" id="cantidad" min="0" value="0">
-        </div>
-        <div class="campo">
-          <label for="horario">Horario / iluminación</label>
-          <select id="horario">
-            <option value="Día" data-extra="0">Día (sin costo extra)</option>
-            <option value="Amanecer" data-extra="2">Amanecer (+$2.00 por toma)</option>
-            <option value="Atardecer / Hora dorada" data-extra="2">Atardecer / Hora dorada (+$2.00 por toma)</option>
-            <option value="Noche" data-extra="2">Noche (+$2.00 por toma)</option>
-          </select>
-        </div>
-        <div class="campo">
-          <label for="detalles">Detalles del proyecto o ubicación</label>
-          <textarea id="detalles" rows="4" placeholder="Ej.: casa de 2 niveles en…, fecha deseada…" required></textarea>
-        </div>
+      <form class="formulario" id="form-cotizacion" novalidate>
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"><!-- anti-spam -->
 
+        <!-- 1. Datos del cliente -->
+        <fieldset>
+          <legend>1. Tus datos</legend>
+          <div class="campo"><label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" autocomplete="name" required></div>
+          <div class="campo"><label for="telefono">Número de teléfono</label>
+            <input type="tel" id="telefono" autocomplete="tel" placeholder="7000 0000" required></div>
+          <div class="campo"><label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" autocomplete="email" required></div>
+          <div class="campo"><label for="fecha">Fecha en la que lo deseas</label>
+            <input type="date" id="fecha" required></div>
+        </fieldset>
+
+        <!-- 2. Servicio. data-precio = USD | data-f360 = fotos 360 incluidas | data-fija = fotos fijas incluidas -->
+        <fieldset>
+          <legend>2. Servicio</legend>
+          <div class="campo"><label for="servicio">Paquete</label>
+            <select id="servicio">
+              <optgroup label="Recorridos virtuales 360° aéreos">
+                <option data-precio="15" data-f360="5" data-fija="0">Paquete Básico 360° (5 fotos 360°) - $15.00</option>
+                <option data-precio="25" data-f360="10" data-fija="5">Paquete Pro 360° + Fotos (10 fotos 360° + 5 fijas) - $25.00</option>
+              </optgroup>
+              <optgroup label="Fotografía aérea estándar">
+                <option data-precio="15" data-f360="0" data-fija="10">Paquete 10 fotos fijas - $15.00</option>
+                <option data-precio="25" data-f360="0" data-fija="20">Paquete 20 fotos fijas - $25.00</option>
+              </optgroup>
+              <optgroup label="Video aéreo para redes sociales">
+                <option data-precio="15" data-f360="0" data-fija="3">Video Express Redes (30 s + 3 fotos) - $15.00</option>
+                <option data-precio="25" data-f360="0" data-fija="0">Video Promocional Corto (45 a 60 s) - $25.00</option>
+              </optgroup>
+              <optgroup label="Inspecciones técnicas y monitoreo">
+                <option data-precio="20" data-f360="0" data-fija="0">Inspección Aérea de techo / estructura (15-20 fotos + video) - $20.00</option>
+                <option data-precio="25" data-f360="0" data-fija="0">Avance de obra puntual (por visita) - $25.00</option>
+              </optgroup>
+              <optgroup label="Paquete TOP">
+                <option data-precio="50" data-f360="10" data-fija="10">Combo Todo Incluido (10 fotos 360° + 10 fijas + video 30-45 s) - $50.00</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="campo"><label for="extra360">Fotos 360° adicionales ($3.00 c/u, mismo horario)</label>
+            <input type="number" id="extra360" min="0" value="0"></div>
+          <div class="campo"><label for="extraFija">Fotos fijas adicionales ($1.50 c/u)</label>
+            <input type="number" id="extraFija" min="0" value="0"></div>
+        </fieldset>
+
+        <!-- 3. Horarios (se puede marcar más de uno) -->
+        <fieldset>
+          <legend>3. Horario de la toma</legend>
+          <p class="nota">Marca uno o varios. El primero está incluido; cada horario adicional suma <strong>$2.00 por cada foto 360°</strong> (aplica a paquetes con fotos 360°).</p>
+          <div class="checks" id="horarios">
+            <label><input type="checkbox" name="horario" value="Día" checked> Día</label>
+            <label><input type="checkbox" name="horario" value="Amanecer"> Amanecer</label>
+            <label><input type="checkbox" name="horario" value="Atardecer / Hora dorada"> Atardecer / Hora dorada</label>
+            <label><input type="checkbox" name="horario" value="Noche"> Noche</label>
+          </div>
+        </fieldset>
+
+        <div class="campo"><label for="detalles">Ubicación y detalles del proyecto</label>
+          <textarea id="detalles" rows="4" placeholder="Dirección o zona, tipo de propiedad, qué quieres mostrar…" required></textarea></div>
+
+        <!-- Resumen automático -->
         <div class="estimado" aria-live="polite">
-          <span>Estimado (referencial)</span><strong id="total">$0.00</strong>
+          <ul id="desglose"></ul>
+          <div class="total-fila"><span>Total estimado</span><strong id="total">$0.00</strong></div>
+          <div class="total-fila anticipo"><span>Anticipo del 50%</span><strong id="anticipo">$0.00</strong></div>
         </div>
 
         <div class="pago">
           <div>
             <h3>Método de pago</h3>
-            <p>Para reservar tu fecha se requiere un <strong>50% de anticipo</strong> mediante pago con <strong>código QR</strong>. El saldo se cancela al entregar el trabajo.</p>
+            <p>Para reservar tu fecha se requiere un <strong>50% de anticipo</strong> mediante pago con <strong>código QR</strong>. Cuando confirme tu cotización y la fecha, escanea este código desde tu app de Nequi. El saldo se cancela al entregar el trabajo.</p>
           </div>
-          <!-- Cuando tengas tu QR: <img src="img/qr-pago.png" alt="QR de pago" width="130"> -->
-          <div class="qr-caja">Aquí irá tu código QR</div>
+          <img class="qr-img" src="img/qr-pago.png" alt="Código QR de pago Nequi" width="170" height="170">
         </div>
 
-        <button class="btn" type="submit">Enviar solicitud</button>
+        <button class="btn" type="submit" id="enviar">Enviar solicitud</button>
+        <p id="mensaje" role="status"></p>
       </form>
     </div>
   </section>
 
   <script>
-    // Calcula el estimado: precio base + (cantidad x recargo por horario)
+    // ============ CONFIGURACIÓN: cambia este correo por el tuyo ============
+    // Las solicitudes llegan a este correo mediante el servicio gratuito FormSubmit.
+    // La primera vez te llegará un correo de FormSubmit: confirma el enlace para activarlo.
+    const CORREO_DESTINO = 'tucorreo@gmail.com';
+    // ======================================================================
+
     const f = document.getElementById('form-cotizacion');
-    const total = document.getElementById('total');
+    const $ = id => document.getElementById(id);
+    const usd = n => '$' + n.toFixed(2);
+    const horariosMarcados = () => [...f.querySelectorAll('input[name=horario]:checked')].map(c => c.value);
+
+    // Fecha mínima = hoy
+    const hoy = new Date(); hoy.setMinutes(hoy.getMinutes() - hoy.getTimezoneOffset());
+    $('fecha').min = hoy.toISOString().slice(0, 10);
+
+    // Calcula precios y actualiza el resumen. Devuelve los datos para el envío.
     function calcular() {
-      const base = +f.servicio.selectedOptions[0].dataset.precio;
-      const extra = +f.horario.selectedOptions[0].dataset.extra;
-      const n = +f.cantidad.value || 0;
-      const t = base + n * extra;
-      total.textContent = '$' + t.toFixed(2);
-      return t;
+      const op = $('servicio').selectedOptions[0];
+      const base = +op.dataset.precio, f360 = +op.dataset.f360, fija = +op.dataset.fija;
+
+      // Activa solo los extras que aplican al paquete elegido
+      $('extra360').disabled = f360 === 0; if (f360 === 0) $('extra360').value = 0;
+      $('extraFija').disabled = fija === 0; if (fija === 0) $('extraFija').value = 0;
+      const e360 = Math.max(0, +$('extra360').value || 0);
+      const eFija = Math.max(0, +$('extraFija').value || 0);
+
+      const hs = horariosMarcados();
+      const horasExtra = Math.max(0, hs.length - 1);
+      const fotos360 = f360 + e360;
+
+      const lineas = [[op.textContent.split(' - ')[0], base]];
+      if (e360) lineas.push([`${e360} foto(s) 360° adicional(es) x $3.00`, e360 * 3]);
+      if (eFija) lineas.push([`${eFija} foto(s) fija(s) adicional(es) x $1.50`, eFija * 1.5]);
+      if (horasExtra && fotos360) lineas.push([`${horasExtra} horario(s) extra x ${fotos360} fotos 360° x $2.00`, horasExtra * fotos360 * 2]);
+
+      const total = lineas.reduce((s, l) => s + l[1], 0);
+      $('desglose').innerHTML = lineas.map(l => `<li><span>${l[0]}</span><span>${usd(l[1])}</span></li>`).join('');
+      $('total').textContent = usd(total);
+      $('anticipo').textContent = usd(total / 2);
+      return { lineas, total, hs, e360, eFija };
     }
     f.addEventListener('input', calcular); calcular();
 
-    // Al enviar, abre el correo con los datos. CAMBIA el correo por el tuyo.
-    f.addEventListener('submit', e => {
+    // Envío: valida y manda la solicitud a tu correo
+    f.addEventListener('submit', async e => {
       e.preventDefault();
-      const cuerpo = `Servicio: ${f.servicio.value}\nAdicionales: ${f.cantidad.value}\nHorario: ${f.horario.value}\nEstimado: $${calcular().toFixed(2)}\nDetalles: ${f.detalles.value}`;
-      location.href = 'mailto:contacto@tudominio.com?subject=' + encodeURIComponent('Cotización Horizon 360') + '&body=' + encodeURIComponent(cuerpo);
+      const msg = $('mensaje'); msg.className = '';
+      const r = calcular();
+      if (!f.reportValidity()) return;
+      if (r.hs.length === 0) { msg.textContent = 'Marca al menos un horario para la toma.'; msg.className = 'error'; return; }
+
+      const btn = $('enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+      const datos = {
+        _subject: 'Nueva cotización Horizon 360 - ' + $('nombre').value,
+        _template: 'table', _captcha: 'false', _honey: f._honey.value,
+        email: $('correo').value,
+        Nombre: $('nombre').value, Telefono: $('telefono').value, Correo: $('correo').value,
+        Fecha_deseada: $('fecha').value, Servicio: $('servicio').selectedOptions[0].textContent,
+        Fotos_360_adicionales: r.e360, Fotos_fijas_adicionales: r.eFija,
+        Horarios: r.hs.join(', '), Ubicacion_y_detalles: $('detalles').value,
+        Desglose: r.lineas.map(l => l[0] + ': ' + usd(l[1])).join(' | '),
+        Total_estimado: usd(r.total), Anticipo_50: usd(r.total / 2)
+      };
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/' + CORREO_DESTINO, {
+          method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(datos)
+        });
+        if (!res.ok) throw new Error();
+        msg.textContent = '¡Solicitud enviada! Te contactaremos pronto con la confirmación y la fecha.';
+        msg.className = 'ok'; f.reset(); calcular();
+      } catch (err) {
+        msg.textContent = 'No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.'; msg.className = 'error';
+      }
+      btn.disabled = false; btn.textContent = 'Enviar solicitud';
     });
   </script>
 

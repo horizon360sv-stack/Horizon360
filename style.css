@@ -155,3 +155,26 @@ select:focus-visible, textarea:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; } .btn { transition: none; }
 }
+
+/* ---------- Cotizador (v2) ---------- */
+.formulario fieldset { border: 1px solid #d5ddd7; border-radius: var(--radio); padding: 1.2rem; display: grid; gap: 1rem; margin: 0; }
+.formulario legend { font-weight: 700; color: var(--verde-oscuro); padding: 0 .5rem; }
+.nota { margin: 0; font-size: .9rem; }
+.checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .6rem; }
+.checks label {
+  display: flex; align-items: center; gap: .6rem; padding: .7rem .9rem;
+  border: 1px solid #c5cdc7; border-radius: 8px; cursor: pointer; background: var(--fondo);
+}
+.checks input { width: 1.15rem; height: 1.15rem; accent-color: var(--verde); }
+.checks label:has(input:checked) { border-color: var(--verde); background: var(--verde-claro); }
+.campo input:disabled { background: #eceeed; cursor: not-allowed; }
+.estimado { flex-direction: column; }
+.estimado ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; font-size: .92rem; }
+.estimado li, .total-fila { display: flex; justify-content: space-between; gap: 1rem; }
+.total-fila { border-top: 1px solid rgba(255,255,255,.25); padding-top: .5rem; }
+.total-fila.anticipo strong { color: var(--dorado); }
+.qr-img { background: var(--blanco); border-radius: 8px; padding: 6px; border: 1px solid #c5cdc7; }
+#mensaje { margin: 0; font-weight: 600; }
+#mensaje.ok { color: var(--verde); }
+#mensaje.error { color: #b3261e; }
+.btn:disabled { opacity: .6; cursor: wait; }
