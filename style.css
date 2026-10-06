@@ -178,3 +178,10 @@ select:focus-visible, textarea:focus-visible {
 #mensaje.ok { color: var(--verde); }
 #mensaje.error { color: #b3261e; }
 .btn:disabled { opacity: .6; cursor: wait; }
+
+/* ---------- Horarios por cantidad y mapa ---------- */
+.slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; }
+#mapa { height: 330px; border-radius: var(--radio); border: 1px solid #c5cdc7; isolation: isolate; display: grid; place-items: center; text-align: center; }
+.mapa-botones { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: .5rem; }
+#coords { font-size: .9rem; }
+.btn-sec { background: var(--verde-oscuro); padding: .6rem 1.1rem; font-size: .9rem; }

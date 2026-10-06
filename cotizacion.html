@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- Mapa (Leaflet + OpenStreetMap, gratuito) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
 </head>
 <body>
   <!-- ===== HEADER (igual en todas las páginas) ===== -->
@@ -28,7 +30,7 @@
   <section class="pagina-titulo">
     <div class="contenedor">
       <h1>Solicita tu cotización</h1>
-      <p>Elige el servicio, marca los horarios que prefieres y deja tus datos. El precio se calcula solo y yo te respondo con la confirmación y la fecha.</p>
+      <p>Elige el servicio, indica cuántas fotos quieres en cada horario y marca el lugar en el mapa. El precio se calcula solo y te respondo con la confirmación y la fecha.</p>
     </div>
   </section>
 
@@ -76,26 +78,43 @@
               </optgroup>
             </select>
           </div>
-          <div class="campo"><label for="extra360">Fotos 360° adicionales ($3.00 c/u, mismo horario)</label>
+          <div class="campo"><label for="extra360">Fotos 360° adicionales ($3.00 c/u)</label>
             <input type="number" id="extra360" min="0" value="0"></div>
           <div class="campo"><label for="extraFija">Fotos fijas adicionales ($1.50 c/u)</label>
             <input type="number" id="extraFija" min="0" value="0"></div>
         </fieldset>
 
-        <!-- 3. Horarios (se puede marcar más de uno) -->
+        <!-- 3. Horarios: el cliente decide cuántas fotos quiere en cada uno -->
         <fieldset>
-          <legend>3. Horario de la toma</legend>
-          <p class="nota">Marca uno o varios. El primero está incluido; cada horario adicional suma <strong>$2.00 por cada foto 360°</strong> (aplica a paquetes con fotos 360°).</p>
-          <div class="checks" id="horarios">
-            <label><input type="checkbox" name="horario" value="Día" checked> Día</label>
-            <label><input type="checkbox" name="horario" value="Amanecer"> Amanecer</label>
-            <label><input type="checkbox" name="horario" value="Atardecer / Hora dorada"> Atardecer / Hora dorada</label>
-            <label><input type="checkbox" name="horario" value="Noche"> Noche</label>
+          <legend>3. Horario de las fotos</legend>
+          <div class="campo"><label for="horarioPrincipal">Horario principal (incluido en el precio)</label>
+            <select id="horarioPrincipal">
+              <option>Día</option><option>Amanecer</option><option>Atardecer / Hora dorada</option><option>Noche</option>
+            </select></div>
+          <p class="nota" id="notaSlots"></p>
+          <div class="slots" id="slots">
+            <div class="campo"><label for="s0">Fotos 360° de Día</label><input type="number" id="s0" min="0" value="0" data-slot="Día"></div>
+            <div class="campo"><label for="s1">Fotos 360° de Amanecer</label><input type="number" id="s1" min="0" value="0" data-slot="Amanecer"></div>
+            <div class="campo"><label for="s2">Fotos 360° de Atardecer / Hora dorada</label><input type="number" id="s2" min="0" value="0" data-slot="Atardecer / Hora dorada"></div>
+            <div class="campo"><label for="s3">Fotos 360° de Noche</label><input type="number" id="s3" min="0" value="0" data-slot="Noche"></div>
           </div>
         </fieldset>
 
-        <div class="campo"><label for="detalles">Ubicación y detalles del proyecto</label>
-          <textarea id="detalles" rows="4" placeholder="Dirección o zona, tipo de propiedad, qué quieres mostrar…" required></textarea></div>
+        <!-- 4. Ubicación -->
+        <fieldset>
+          <legend>4. Ubicación</legend>
+          <div class="campo"><label for="direccion">Dirección del lugar</label>
+            <input type="text" id="direccion" autocomplete="street-address" placeholder="Colonia, calle, municipio, punto de referencia" required></div>
+          <div class="campo"><label>Marca el lugar en el mapa (toca o haz clic)</label>
+            <div id="mapa" role="application" aria-label="Mapa para marcar la ubicación"></div>
+            <div class="mapa-botones">
+              <button type="button" class="btn btn-sec" id="btnUbicacion">Usar mi ubicación actual</button>
+              <span id="coords">Aún no has marcado un punto.</span>
+            </div></div>
+        </fieldset>
+
+        <div class="campo"><label for="detalles">Detalles del proyecto (opcional)</label>
+          <textarea id="detalles" rows="4" placeholder="Tipo de propiedad, qué quieres mostrar, acceso al lugar…"></textarea></div>
 
         <!-- Resumen automático -->
         <div class="estimado" aria-live="polite">
@@ -103,14 +122,7 @@
           <div class="total-fila"><span>Total estimado</span><strong id="total">$0.00</strong></div>
           <div class="total-fila anticipo"><span>Anticipo del 50%</span><strong id="anticipo">$0.00</strong></div>
         </div>
-
-        <div class="pago">
-          <div>
-            <h3>Método de pago</h3>
-            <p>Para reservar tu fecha se requiere un <strong>50% de anticipo</strong> mediante pago con <strong>código QR</strong>. Cuando confirme tu cotización y la fecha, escanea este código desde tu app de Nequi. El saldo se cancela al entregar el trabajo.</p>
-          </div>
-          <img class="qr-img" src="img/qr-pago.png" alt="Código QR de pago Nequi" width="170" height="170">
-        </div>
+        <p class="nota">Al responder tu cotización te indicaré el método de pago. Para reservar la fecha se requiere un 50% de anticipo.</p>
 
         <button class="btn" type="submit" id="enviar">Enviar solicitud</button>
         <p id="mensaje" role="status"></p>
@@ -118,59 +130,103 @@
     </div>
   </section>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
   <script>
-    // ============ CONFIGURACIÓN: cambia este correo por el tuyo ============
     // Las solicitudes llegan a este correo mediante el servicio gratuito FormSubmit.
     // La primera vez te llegará un correo de FormSubmit: confirma el enlace para activarlo.
-    const CORREO_DESTINO = 'tucorreo@gmail.com';
-    // ======================================================================
+    const CORREO_DESTINO = 'horizon360sv@gmail.com';
 
     const f = document.getElementById('form-cotizacion');
     const $ = id => document.getElementById(id);
     const usd = n => '$' + n.toFixed(2);
-    const horariosMarcados = () => [...f.querySelectorAll('input[name=horario]:checked')].map(c => c.value);
+    const slotInputs = [...document.querySelectorAll('#slots input')];
 
     // Fecha mínima = hoy
     const hoy = new Date(); hoy.setMinutes(hoy.getMinutes() - hoy.getTimezoneOffset());
     $('fecha').min = hoy.toISOString().slice(0, 10);
 
-    // Calcula precios y actualiza el resumen. Devuelve los datos para el envío.
+    // ---------- Mapa ----------
+    let mapa = null, pin = null, punto = null;
+    function marcar(lat, lng) {
+      punto = { lat: +lat.toFixed(6), lng: +lng.toFixed(6) };
+      if (pin) pin.setLatLng([lat, lng]);
+      else pin = L.circleMarker([lat, lng], { radius: 11, color: '#0d381e', weight: 3, fillColor: '#2e7d32', fillOpacity: .9 }).addTo(mapa);
+      $('coords').textContent = 'Ubicación marcada: ' + punto.lat + ', ' + punto.lng;
+    }
+    if (typeof L !== 'undefined') {
+      mapa = L.map('mapa').setView([13.7, -89.2], 8);   // El Salvador
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19, attribution: '&copy; OpenStreetMap'
+      }).addTo(mapa);
+      mapa.on('click', e => marcar(e.latlng.lat, e.latlng.lng));
+    } else {
+      $('mapa').textContent = 'No se pudo cargar el mapa. Escribe la dirección completa.';
+    }
+    $('btnUbicacion').addEventListener('click', () => {
+      if (!mapa || !navigator.geolocation) { $('coords').textContent = 'Tu navegador no permite obtener la ubicación.'; return; }
+      navigator.geolocation.getCurrentPosition(
+        p => { marcar(p.coords.latitude, p.coords.longitude); mapa.setView([p.coords.latitude, p.coords.longitude], 16); },
+        () => { $('coords').textContent = 'No se pudo obtener tu ubicación. Márcala en el mapa.'; });
+    });
+
+    // ---------- Cálculo ----------
+    // Las fotos 360° del horario principal van incluidas.
+    // Cada foto 360° en otro horario suma +$2.00.
     function calcular() {
       const op = $('servicio').selectedOptions[0];
       const base = +op.dataset.precio, f360 = +op.dataset.f360, fija = +op.dataset.fija;
 
-      // Activa solo los extras que aplican al paquete elegido
       $('extra360').disabled = f360 === 0; if (f360 === 0) $('extra360').value = 0;
       $('extraFija').disabled = fija === 0; if (fija === 0) $('extraFija').value = 0;
-      const e360 = Math.max(0, +$('extra360').value || 0);
-      const eFija = Math.max(0, +$('extraFija').value || 0);
+      const e360 = Math.max(0, parseInt($('extra360').value) || 0);
+      const eFija = Math.max(0, parseInt($('extraFija').value) || 0);
+      const total360 = f360 + e360;
 
-      const hs = horariosMarcados();
-      const horasExtra = Math.max(0, hs.length - 1);
-      const fotos360 = f360 + e360;
+      // Reparto de fotos por horario (las de otros horarios no pueden pasar del total)
+      const principal = $('horarioPrincipal').value;
+      let resto = total360;
+      const reparto = {};
+      slotInputs.forEach(inp => {
+        if (inp.dataset.slot === principal) return;
+        inp.disabled = total360 === 0;
+        let n = Math.max(0, parseInt(inp.value) || 0);
+        if (n > resto) { n = resto; inp.value = n; }
+        resto -= n; reparto[inp.dataset.slot] = n;
+      });
+      slotInputs.forEach(inp => {
+        if (inp.dataset.slot !== principal) return;
+        inp.disabled = true; inp.value = resto; reparto[principal] = resto;
+      });
+      $('notaSlots').textContent = total360
+        ? `Tu paquete tiene ${total360} fotos 360°. Las que queden en "${principal}" van incluidas; cada foto en otro horario suma $2.00.`
+        : 'Este servicio no incluye fotos 360°: el horario principal es el que prefieres, sin costo extra.';
 
       const lineas = [[op.textContent.split(' - ')[0], base]];
       if (e360) lineas.push([`${e360} foto(s) 360° adicional(es) x $3.00`, e360 * 3]);
       if (eFija) lineas.push([`${eFija} foto(s) fija(s) adicional(es) x $1.50`, eFija * 1.5]);
-      if (horasExtra && fotos360) lineas.push([`${horasExtra} horario(s) extra x ${fotos360} fotos 360° x $2.00`, horasExtra * fotos360 * 2]);
+      Object.entries(reparto).forEach(([slot, n]) => {
+        if (slot !== principal && n > 0) lineas.push([`${n} foto(s) 360° en ${slot} x $2.00`, n * 2]);
+      });
 
       const total = lineas.reduce((s, l) => s + l[1], 0);
       $('desglose').innerHTML = lineas.map(l => `<li><span>${l[0]}</span><span>${usd(l[1])}</span></li>`).join('');
       $('total').textContent = usd(total);
       $('anticipo').textContent = usd(total / 2);
-      return { lineas, total, hs, e360, eFija };
+      return { lineas, total, e360, eFija, principal, reparto, total360 };
     }
     f.addEventListener('input', calcular); calcular();
 
-    // Envío: valida y manda la solicitud a tu correo
+    // ---------- Envío ----------
     f.addEventListener('submit', async e => {
       e.preventDefault();
       const msg = $('mensaje'); msg.className = '';
       const r = calcular();
       if (!f.reportValidity()) return;
-      if (r.hs.length === 0) { msg.textContent = 'Marca al menos un horario para la toma.'; msg.className = 'error'; return; }
 
       const btn = $('enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+      const fotosHorario = r.total360
+        ? Object.entries(r.reparto).filter(([, n]) => n > 0).map(([s, n]) => `${s}: ${n}`).join(', ')
+        : 'Horario preferido: ' + r.principal;
       const datos = {
         _subject: 'Nueva cotización Horizon 360 - ' + $('nombre').value,
         _template: 'table', _captcha: 'false', _honey: f._honey.value,
@@ -178,7 +234,10 @@
         Nombre: $('nombre').value, Telefono: $('telefono').value, Correo: $('correo').value,
         Fecha_deseada: $('fecha').value, Servicio: $('servicio').selectedOptions[0].textContent,
         Fotos_360_adicionales: r.e360, Fotos_fijas_adicionales: r.eFija,
-        Horarios: r.hs.join(', '), Ubicacion_y_detalles: $('detalles').value,
+        Horario_principal: r.principal, Fotos_360_por_horario: fotosHorario,
+        Direccion: $('direccion').value,
+        Ubicacion_en_mapa: punto ? `https://www.google.com/maps?q=${punto.lat},${punto.lng}` : 'No marcó ubicación en el mapa',
+        Detalles: $('detalles').value || '-',
         Desglose: r.lineas.map(l => l[0] + ': ' + usd(l[1])).join(' | '),
         Total_estimado: usd(r.total), Anticipo_50: usd(r.total / 2)
       };
@@ -189,7 +248,9 @@
         });
         if (!res.ok) throw new Error();
         msg.textContent = '¡Solicitud enviada! Te contactaremos pronto con la confirmación y la fecha.';
-        msg.className = 'ok'; f.reset(); calcular();
+        msg.className = 'ok'; f.reset();
+        if (pin) { pin.remove(); pin = null; punto = null; }
+        $('coords').textContent = 'Aún no has marcado un punto.'; calcular();
       } catch (err) {
         msg.textContent = 'No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.'; msg.className = 'error';
       }
