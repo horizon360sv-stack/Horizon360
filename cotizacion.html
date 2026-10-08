@@ -93,10 +93,10 @@
             </select></div>
           <p class="nota" id="notaSlots"></p>
           <div class="slots" id="slots">
-            <div class="campo"><label for="s0">Fotos 360° de Día</label><input type="number" id="s0" min="0" value="0" data-slot="Día"></div>
-            <div class="campo"><label for="s1">Fotos 360° de Amanecer</label><input type="number" id="s1" min="0" value="0" data-slot="Amanecer"></div>
-            <div class="campo"><label for="s2">Fotos 360° de Atardecer / Hora dorada</label><input type="number" id="s2" min="0" value="0" data-slot="Atardecer / Hora dorada"></div>
-            <div class="campo"><label for="s3">Fotos 360° de Noche</label><input type="number" id="s3" min="0" value="0" data-slot="Noche"></div>
+            <div class="campo"><label for="s0">Día</label><input type="number" id="s0" min="0" value="0" data-slot="Día"></div>
+            <div class="campo"><label for="s1">Amanecer</label><input type="number" id="s1" min="0" value="0" data-slot="Amanecer"></div>
+            <div class="campo"><label for="s2">Atardecer</label><input type="number" id="s2" min="0" value="0" data-slot="Atardecer / Hora dorada"></div>
+            <div class="campo"><label for="s3">Noche</label><input type="number" id="s3" min="0" value="0" data-slot="Noche"></div>
           </div>
         </fieldset>
 
@@ -111,6 +111,7 @@
               <button type="button" class="btn btn-sec" id="btnUbicacion">Usar mi ubicación actual</button>
               <span id="coords">Aún no has marcado un punto.</span>
             </div></div>
+          <p class="nota aviso"><strong>Viáticos no incluidos:</strong> dependen de la zona y se confirman al responder tu cotización.</p>
         </fieldset>
 
         <div class="campo"><label for="detalles">Detalles del proyecto (opcional)</label>
@@ -122,7 +123,7 @@
           <div class="total-fila"><span>Total estimado</span><strong id="total">$0.00</strong></div>
           <div class="total-fila anticipo"><span>Anticipo del 50%</span><strong id="anticipo">$0.00</strong></div>
         </div>
-        <p class="nota">Al responder tu cotización te indicaré el método de pago. Para reservar la fecha se requiere un 50% de anticipo.</p>
+        <p class="nota aviso"><strong>Viáticos no incluidos:</strong> dependen de la zona. Al responder tu cotización te indicaré el monto de viáticos y el método de pago. Para reservar la fecha se requiere un 50% de anticipo.</p>
 
         <button class="btn" type="submit" id="enviar">Enviar solicitud</button>
         <p id="mensaje" role="status"></p>
@@ -134,7 +135,9 @@
   <script>
     // Las solicitudes llegan a este correo mediante el servicio gratuito FormSubmit.
     // La primera vez te llegará un correo de FormSubmit: confirma el enlace para activarlo.
-    const CORREO_DESTINO = 'horizon360sv@gmail.com';
+    // Después de activar FormSubmit te dan un código aleatorio (token). Pégalo aquí EN LUGAR del correo
+    // para que nadie pueda ver tu Gmail en el código de la página.
+    const DESTINO_FORMSUBMIT = 'horizon360sv@gmail.com';
 
     const f = document.getElementById('form-cotizacion');
     const $ = id => document.getElementById(id);
@@ -182,30 +185,32 @@
       const eFija = Math.max(0, parseInt($('extraFija').value) || 0);
       const total360 = f360 + e360;
 
-      // Reparto de fotos por horario (las de otros horarios no pueden pasar del total)
+      // Las fotos del paquete se toman todas en el horario principal (no se restan).
+      // Las fotos en otros horarios son las MISMAS tomas (mismo lugar) repetidas con otra luz: +$2.00 c/u.
       const principal = $('horarioPrincipal').value;
-      let resto = total360;
       const reparto = {};
+      $('slots').hidden = total360 === 0;
       slotInputs.forEach(inp => {
-        if (inp.dataset.slot === principal) return;
-        inp.disabled = total360 === 0;
-        let n = Math.max(0, parseInt(inp.value) || 0);
-        if (n > resto) { n = resto; inp.value = n; }
-        resto -= n; reparto[inp.dataset.slot] = n;
-      });
-      slotInputs.forEach(inp => {
-        if (inp.dataset.slot !== principal) return;
-        inp.disabled = true; inp.value = resto; reparto[principal] = resto;
+        const slot = inp.dataset.slot, corto = slot.split(' / ')[0], lbl = inp.previousElementSibling;
+        if (slot === principal) {
+          inp.disabled = true; inp.value = total360; reparto[slot] = total360;
+          lbl.textContent = corto + ' (incluidas)';
+        } else {
+          inp.disabled = total360 === 0; inp.max = total360;
+          let n = Math.max(0, parseInt(inp.value) || 0);
+          if (n > total360) { n = total360; inp.value = n; }
+          reparto[slot] = n; lbl.textContent = corto + ' (+$2.00 c/u)';
+        }
       });
       $('notaSlots').textContent = total360
-        ? `Tu paquete tiene ${total360} fotos 360°. Las que queden en "${principal}" van incluidas; cada foto en otro horario suma $2.00.`
+        ? `Tus ${total360} fotos 360° se toman en el horario principal. Si quieres algunas de esas mismas tomas (mismo lugar) también en otro horario, escribe cuántas: cada una suma $2.00. No se restan las del paquete.`
         : 'Este servicio no incluye fotos 360°: el horario principal es el que prefieres, sin costo extra.';
 
       const lineas = [[op.textContent.split(' - ')[0], base]];
       if (e360) lineas.push([`${e360} foto(s) 360° adicional(es) x $3.00`, e360 * 3]);
       if (eFija) lineas.push([`${eFija} foto(s) fija(s) adicional(es) x $1.50`, eFija * 1.5]);
       Object.entries(reparto).forEach(([slot, n]) => {
-        if (slot !== principal && n > 0) lineas.push([`${n} foto(s) 360° en ${slot} x $2.00`, n * 2]);
+        if (slot !== principal && n > 0) lineas.push([`${n} foto(s) 360° repetidas en ${slot.split(' / ')[0]} x $2.00`, n * 2]);
       });
 
       const total = lineas.reduce((s, l) => s + l[1], 0);
@@ -225,10 +230,10 @@
 
       const btn = $('enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
       const fotosHorario = r.total360
-        ? Object.entries(r.reparto).filter(([, n]) => n > 0).map(([s, n]) => `${s}: ${n}`).join(', ')
+        ? Object.entries(r.reparto).filter(([, n]) => n > 0).map(([sl, n]) => sl === r.principal ? `${sl} (principal): ${n}` : `${sl} (extra): ${n}`).join(' | ')
         : 'Horario preferido: ' + r.principal;
       const datos = {
-        _subject: 'Nueva cotización Horizon 360 - ' + $('nombre').value,
+        _subject: 'COTIZACION HORIZON 360 | ' + $('nombre').value + ' | ' + $('fecha').value,  // filtra en Gmail por "COTIZACION HORIZON 360"
         _template: 'table', _captcha: 'false', _honey: f._honey.value,
         email: $('correo').value,
         Nombre: $('nombre').value, Telefono: $('telefono').value, Correo: $('correo').value,
@@ -242,7 +247,7 @@
         Total_estimado: usd(r.total), Anticipo_50: usd(r.total / 2)
       };
       try {
-        const res = await fetch('https://formsubmit.co/ajax/' + CORREO_DESTINO, {
+        const res = await fetch('https://formsubmit.co/ajax/' + DESTINO_FORMSUBMIT, {
           method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify(datos)
         });

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Proyectos | Horizon 360</title>
+  <title>Inspección Aérea | Horizon 360</title>
   <meta name="description" content="Horizon 360: fotografía y videografía aérea con dron y recorridos virtuales 360°.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,22 +27,33 @@
 
   <section class="pagina-titulo">
     <div class="contenedor">
-      <h1>Proyectos realizados</h1>
-      <p>Una muestra de nuestro trabajo en bienes raíces, construcción y turismo.</p>
+      <h1>Inspección Aérea</h1>
+      <p>Revisión aérea de techos y estructuras con fotos detalladas y video.</p>
     </div>
   </section>
 
   <section class="seccion">
     <div class="contenedor">
-      <!-- Para usar tus fotos reales, reemplaza img/proyecto1.jpg ... proyecto4.jpg conservando el nombre -->
-      <div class="galeria">
-        <article class="proyecto"><a href="portafolio/centro-historico.html" target="_blank" rel="noopener" aria-label="Centro Histórico en 360°"><img src="img/proyecto1.jpg" alt="Centro Histórico en 360°" loading="lazy"></a><div><h3>Centro Histórico en 360°</h3><p>Recorrido virtual interactivo por las calles y plazas del centro histórico.</p><a class="btn" href="portafolio/centro-historico.html" target="_blank" rel="noopener">Ver recorrido 360°</a></div></article>
-        <article class="proyecto"><a href="inspeccion-aerea.html" aria-label="Inspección Aérea"><img src="img/proyecto2.jpg" alt="Inspección Aérea" loading="lazy"></a><div><h3>Inspección Aérea</h3><p>Revisión aérea de techos y estructuras con fotos detalladas y video, sin riesgos.</p><a class="btn" href="inspeccion-aerea.html">Ver galería</a></div></article>
-        <article class="proyecto"><a href="atardecer-costa.html" aria-label="Atardecer Costa"><img src="img/proyecto3.jpg" alt="Atardecer Costa" loading="lazy"></a><div><h3>Atardecer Costa</h3><p>Fotografía aérea en hora dorada para promocionar una propiedad frente al mar.</p><a class="btn" href="atardecer-costa.html">Ver galería</a></div></article>
-        <article class="proyecto"><a href="inmobiliario.html" aria-label="Proyecto Inmobiliario"><img src="img/proyecto4.jpg" alt="Proyecto Inmobiliario" loading="lazy"></a><div><h3>Proyecto Inmobiliario</h3><p>Fotos y video aéreo en alta resolución para presentar un proyecto de viviendas.</p><a class="btn" href="inmobiliario.html">Ver fotos y videos</a></div></article>
-      </div>
+      <p><a class="volver" href="proyectos.html">&larr; Volver a proyectos</a></p>
+      <div id="galeria-contenido"></div>
     </div>
   </section>
+
+  <!-- ===== CONFIGURACIÓN DE LA GALERÍA =====
+       1) Sube tus archivos a la carpeta indicada en "carpeta".
+       2) Escribe aquí sus nombres entre comillas (minúsculas, sin espacios ni acentos).
+       Ejemplo fotos:  fotos: ['foto1.jpg', 'foto2.jpg']
+       Ejemplo videos: videos: ['video1.mp4']   |   YouTube: youtube: ['ID_DEL_VIDEO'] -->
+  <script>
+    window.GALERIA = {
+      titulo: 'Inspección Aérea',
+      carpeta: 'media/inspeccion-aerea/',
+      fotos: [],
+      videos: [],
+      youtube: []
+    };
+  </script>
+  <script src="galeria.js"></script>
 
   <!-- ===== FOOTER (igual en todas las páginas) ===== -->
   <footer class="footer">

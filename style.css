@@ -185,3 +185,32 @@ select:focus-visible, textarea:focus-visible {
 .mapa-botones { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: .5rem; }
 #coords { font-size: .9rem; }
 .btn-sec { background: var(--verde-oscuro); padding: .6rem 1.1rem; font-size: .9rem; }
+
+/* ---------- Ajustes v3 ---------- */
+.slots { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); align-items: end; }
+.slots[hidden] { display: none; }
+.slots .campo { grid-template-rows: 1fr auto; }      /* etiquetas de cualquier largo: cajas siempre alineadas */
+.slots .campo label { align-self: end; font-size: .9rem; }
+.campo input[type=number], .slots input { height: 3rem; }
+.aviso { background: #fff8e6; border-left: 5px solid var(--dorado); padding: .7rem 1rem; border-radius: 8px; }
+.proyecto a.btn { margin-top: .9rem; padding: .55rem 1.2rem; font-size: .9rem; }
+.proyecto > a { display: block; }
+
+/* ---------- Galerías de proyecto ---------- */
+.volver { font-weight: 600; text-decoration: none; }
+.volver:hover { text-decoration: underline; }
+.galeria-titulo { margin-top: 1.5rem; }
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.media-item { padding: 0; border: 0; background: none; border-radius: var(--radio); overflow: hidden; cursor: zoom-in; box-shadow: var(--sombra); }
+.media-item img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; transition: transform .25s; }
+.media-item:hover img { transform: scale(1.04); }
+.video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+.video-grid video, .video-grid iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--radio); background: #000; box-shadow: var(--sombra); }
+.vacio { text-align: center; background: var(--blanco); padding: 3rem 1rem; border-radius: var(--radio); box-shadow: var(--sombra); }
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 100; display: grid; place-items: center; }
+.lightbox[hidden] { display: none; }
+.lightbox img { max-width: 92vw; max-height: 88vh; border-radius: 6px; }
+.lb-btn { position: absolute; background: rgba(255,255,255,.15); color: #fff; border: 0; border-radius: 50%; width: 3rem; height: 3rem; font-size: 1.8rem; cursor: pointer; }
+.lb-btn:hover { background: rgba(255,255,255,.3); }
+.lb-cerrar { top: 1rem; right: 1rem; }
+.lb-ant { left: 1rem; top: 50%; } .lb-sig { right: 1rem; top: 50%; }
