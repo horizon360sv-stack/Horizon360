@@ -18,8 +18,8 @@
     .sr { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
 
     /* Servicios */
-    .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: .7rem; }
-    .svc { position: relative; display: grid; gap: .25rem; justify-items: center; text-align: center; padding: .9rem .6rem;
+    .svc-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; }
+    .svc { flex: 1 1 128px; max-width: 190px; position: relative; display: grid; gap: .25rem; justify-items: center; text-align: center; padding: .9rem .6rem;
       border: 2px solid #c5cdc7; border-radius: var(--radio); background: var(--fondo); cursor: pointer; transition: border-color .15s, background .15s, transform .15s; }
     .svc:hover { transform: translateY(-2px); }
     .svc .ico { width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; background: var(--blanco); color: var(--verde-oscuro);
@@ -32,8 +32,8 @@
 
     /* Paquetes rápidos */
     .pk-titulo { font-weight: 700; color: var(--verde-oscuro); margin: .2rem 0 0; }
-    .pk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: .7rem; }
-    .pk { text-align: left; display: grid; gap: .2rem; padding: .9rem 1rem; border: 2px solid #c5cdc7; border-radius: var(--radio);
+    .pk-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; }
+    .pk { flex: 1 1 190px; max-width: 280px; text-align: left; display: grid; gap: .2rem; padding: .9rem 1rem; border: 2px solid #c5cdc7; border-radius: var(--radio);
       background: var(--blanco); cursor: pointer; font-family: inherit; color: var(--texto); transition: border-color .15s, background .15s; }
     .pk:hover { border-color: var(--verde); }
     .pk .pk-n { font-weight: 700; color: var(--verde-oscuro); }
@@ -95,7 +95,6 @@
       .stepper button { width: 2.4rem; height: 2.4rem; }
     }
     .campo label.hcard, .campo label.check-linea { font-weight: 400; color: var(--texto); }
-    .svc:last-child:nth-child(odd) { grid-column: 1 / -1; }
     .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; }
     .tab { position: relative; display: grid; gap: 0; justify-items: center; padding: .55rem .6rem; border: 2px solid #c5cdc7; border-radius: 10px;
       background: var(--fondo); cursor: pointer; font-family: inherit; color: var(--verde-oscuro); font-weight: 700; font-size: .8rem; line-height: 1.2; text-align: center; }
@@ -156,11 +155,6 @@
             <p class="nota" id="notaQty"></p>
             <div class="h-grid" id="gridQty"></div>
           </div>
-
-          <!-- Tour interactivo (Recorrido 360°) -->
-          <label class="check-linea" id="pTour"><input type="checkbox" id="chkTour">
-            <span><strong>Tour interactivo</strong> — armo tu recorrido navegable con las fotos 360°.<br>
-            <small id="tourNota"></small></span></label>
 
           <!-- Video: cantidad y duración -->
           <div id="pVideoA" class="campo">
@@ -267,7 +261,7 @@
       f360: 3,        // foto 360° (primer horario de cada punto)
       f360Rep: 2,     // misma toma 360° repetida con otra luz
       fija: 1.5,      // foto aérea fija (en el modo personalizado)
-      tour: 10,       // armado del tour interactivo (en el modo personalizado)
+      tour: 5,        // tour interactivo: va incluido en todo Recorrido 360° (en modo personalizado se suma este monto)
       minimo: 15      // pedido mínimo en modo personalizado (fotos o videos)
     };
     const HORARIOS = [
@@ -296,8 +290,8 @@
       tour360: { nombre: 'Recorrido 360°', ico: '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3.5v4h-4"/><circle cx="12" cy="12" r="3.2"/><path d="M12 8.8V6.5M12 17.5v-2.3M8.8 12H6.5M17.5 12h-2.3" opacity=".55"/></svg>', sub: 'Tour virtual con fotos 360°', modo: 'qty', unidad: 'fotos 360°', custom: true, tipos: ['f360'],
         custDesc: 'Elige cuántas fotos 360° y en qué horarios.',
         paquetes: [
-          { id: 'basico', nombre: 'Paquete Básico', precio: 15, qty: { f360: { dia: 5 } }, tour: false, desc: '5 fotos 360° de día. Ideal para propiedades pequeñas.' },
-          { id: 'pro', nombre: 'Paquete Pro / Comercial', precio: 40, qty: { f360: { dia: 10, atardecer: 5 } }, tour: true, desc: '10 fotos de día + 5 al atardecer + tour interactivo.' }
+          { id: 'basico', nombre: 'Paquete Básico', precio: 20, qty: { f360: { dia: 5 } }, desc: '5 fotos 360° de día + tour interactivo. Ideal para propiedades pequeñas.' },
+          { id: 'pro', nombre: 'Paquete Pro / Comercial', precio: 40, qty: { f360: { dia: 10, atardecer: 5 } }, desc: '10 fotos de día + 5 al atardecer + tour interactivo.' }
         ] },
       aerea: { nombre: 'Fotografía aérea', ico: '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9.5" width="6" height="5" rx="1.4"/><circle cx="12" cy="12" r="1"/><path d="M9.5 10l-3-3M14.5 10l3-3M9.5 14l-3 3M14.5 14l3 3"/><circle cx="5.5" cy="5.5" r="2.3"/><circle cx="18.5" cy="5.5" r="2.3"/><circle cx="5.5" cy="18.5" r="2.3"/><circle cx="18.5" cy="18.5" r="2.3"/></svg>', sub: 'Foto normal, gran angular o 360°', modo: 'qty', unidad: 'fotos aéreas', custom: true, tipos: ['normal', 'ga', 'f360'],
         custDesc: 'Elige el tipo de foto, cuántas y en qué horarios.',
@@ -347,7 +341,6 @@
       const p = paquete();
       if (!p) return;                       // Personalizado: conserva lo que ya estaba elegido
       if (p.qty) { S.qty = cero(); Object.entries(p.qty).forEach(([t, o]) => Object.assign(S.qty[t], o)); }
-      if ('tour' in p) S.tour = !!p.tour;
       if (p.videos) S.videos = p.videos;
       if (p.dur) S.dur = p.dur;
       if (p.tipo) S.tipoInsp = p.tipo;
@@ -432,7 +425,6 @@
       const s = svc(), m = s.modo, lock = bloqueado();
       const show = (id, v) => { $(id).hidden = !v; };
       show('pQty', m === 'qty');
-      show('pTour', s === SERVICIOS.tour360);
       show('pVideoA', m === 'video');
       show('pSingle', m === 'video' || m === 'combo');
       show('pVideoB', m === 'video');
@@ -450,7 +442,7 @@
         const tp = tipos.find(t => t.id === S.tipoFoto);
         $('tituloQty').textContent = multi ? '¿Qué tipo de foto y cuántas por horario?' : '¿Cuántas fotos 360° quieres y en qué horario?';
         $('notaQty').textContent = S.svc === 'tour360'
-          ? `Las fotos se toman en los mismos puntos. Cada punto cuesta ${usd(PRECIO.f360)} en su primer horario y ${usd(PRECIO.f360Rep)} por cada horario extra que quieras repetir.`
+          ? `Las fotos se toman en los mismos puntos. Cada punto cuesta ${usd(PRECIO.f360)} en su primer horario y ${usd(PRECIO.f360Rep)} por cada horario extra que quieras repetir. El tour interactivo va incluido.`
           : `${tp.nombre}: ${tp.sub.toLowerCase()}. Cambia de pestaña para combinar tipos de foto; los contadores de cada horario son para el tipo seleccionado.`;
         HORARIOS.forEach(h => {
           const card = document.querySelector(`#gridQty .hcard[data-h="${h.id}"]`), n = S.qty[S.tipoFoto][h.id];
@@ -460,10 +452,6 @@
           card.querySelector('[data-d="1"]').disabled = lock || n >= 99;
         });
       }
-      // Tour interactivo
-      $('chkTour').checked = S.tour; $('chkTour').disabled = lock;
-      $('pTour').classList.toggle('off', lock);
-      $('tourNota').textContent = lock ? (S.tour ? 'Incluido en este paquete.' : 'No incluido en este paquete. Elige "Personalizado" para agregarlo.') : `Suma ${usd(PRECIO.tour)}.`;
       // Video
       $('outVideos').textContent = S.videos;
       $('filaVideos').classList.toggle('off', lock);
@@ -493,7 +481,7 @@
     }
     function calcular() {
       const s = svc(), p = paquete(), lineas = [];
-      let detalle = '', error = '';
+      let detalle = '', error = '', extra = 0;
 
       if (s.modo === 'qty') {
         const total = totalFotos();
@@ -504,13 +492,13 @@
           const q = S.qty.f360, max = Math.max(...Object.values(q)), rep = total - max;
           if (max) lineas.push([`${max} ${plural(max, 'punto 360°', 'puntos 360°')} x ${usd(PRECIO.f360)}`, max * PRECIO.f360]);
           if (rep) lineas.push([`${rep} ${plural(rep, 'repetición', 'repeticiones')} con otra luz x ${usd(PRECIO.f360Rep)}`, rep * PRECIO.f360Rep]);
-          if (S.tour) lineas.push(['Tour interactivo', PRECIO.tour]);
+          lineas.push(['Tour interactivo (incluido en el recorrido)', PRECIO.tour]); extra += PRECIO.tour;
         } else {
           porTipo.forEach(({ t, n }) => lineas.push([`${n} ${t.nombre.toLowerCase()} x ${usd(t.precio)}`, n * t.precio]));
         }
         if (!total) error = 'Elige al menos una foto en algún horario (usa los botones +).';
         const det = s.tipos.map(id => { const q = S.qty[id]; return textoHorarios(q) ? `${TIPOS_FOTO.find(x => x.id === id).nombre} -> ${textoHorarios(q)}` : ''; }).filter(Boolean).join(' || ');
-        detalle = `${total} ${s.unidad} | ${det || 'sin elegir'}${S.tour ? ' | Con tour interactivo' : ''}`;
+        detalle = `${total} ${s.unidad} | ${det || 'sin elegir'}${S.svc === 'tour360' ? ' | Incluye tour interactivo' : ''}`;
       }
 
       if (s.modo === 'video') {
@@ -535,8 +523,8 @@
       }
 
       const total = error && !lineas.length ? 0 : lineas.reduce((a, l) => a + l[1], 0);
-      if (!error && !p && (s.modo === 'qty' || s.modo === 'video') && total < PRECIO.minimo) {
-        const falta = PRECIO.minimo - total;
+      if (!error && !p && (s.modo === 'qty' || s.modo === 'video') && total - extra < PRECIO.minimo) {   // el mínimo cuenta fotos/videos, sin el tour
+        const falta = PRECIO.minimo - (total - extra);
         error = `El pedido mínimo en modo personalizado es ${usd(PRECIO.minimo)}. Te faltan ${usd(falta)}: agrega más ${s.modo === 'video' ? 'videos o elige una duración mayor' : 'fotos'}.`;
       }
       $('desglose').innerHTML = lineas.length ? lineas.map(l => `<li><span>${l[0]}</span><span>${usd(l[1])}</span></li>`).join('') : '<li><span>Aún no hay selección</span><span>$0.00</span></li>';
@@ -551,7 +539,6 @@
       const t = e.target;
       if (t.name === 'servicio') { cambiarServicio(t.value); renderTodo(); }
       else if (t.name === 'horario') { S.horario = t.value; renderDetalle(); calcular(); }
-      else if (t.id === 'chkTour') { S.tour = t.checked; calcular(); }
       else if (t.id === 'selDur') { S.dur = t.value; calcular(); }
       else if (t.id === 'selFin') { S.fin = t.value; }
       else if (t.id === 'selInsp') { S.tipoInsp = t.value; calcular(); }
