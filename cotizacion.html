@@ -665,6 +665,21 @@
         Desglose: r.lineas.map(l => l[0] + ': ' + usd(l[1])).join(' | '),
         Total_estimado: usd(r.total), Anticipo_50: usd(r.total / 2)
       };
+      // --- Datos para el sistema contable (contabilidad.html): código único + paquete de datos codificado ---
+      const ahora = new Date();
+      const codigo = 'COT-' + ahora.toISOString().slice(0, 10).replace(/-/g, '') + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+      const paquete_sis = {
+        v: 1, codigo, enviada: ahora.toISOString(),
+        nombre: $('nombre').value, telefono: $('telefono').value, correo: $('correo').value,
+        fechaDeseada: $('fecha').value, servicio: svc().nombre, paquete: p ? p.nombre : 'Personalizado',
+        detalle: r.detalle, direccion: $('direccion').value,
+        mapa: punto ? `https://www.google.com/maps?q=${punto.lat},${punto.lng}` : '',
+        notas: $('detalles').value || '', lineas: r.lineas, total: r.total, anticipo: r.total / 2
+      };
+      const bytes = new TextEncoder().encode(JSON.stringify(paquete_sis));
+      let bin = ''; bytes.forEach(b => bin += String.fromCharCode(b));
+      datos.Codigo_cotizacion = codigo;
+      datos.Datos_para_sistema_contable = 'H360[' + btoa(bin) + ']';   // no borrar: el programa de contabilidad lee esta línea
       try {
         const res = await fetch('https://formsubmit.co/ajax/' + DESTINO_FORMSUBMIT, {
           method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
