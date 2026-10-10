@@ -254,6 +254,10 @@
     // para que nadie pueda ver tu Gmail en el código de la página.
     const DESTINO_FORMSUBMIT = 'horizon360sv@gmail.com';
 
+    // Envío AUTOMÁTICO al programa contable (además del correo): pega aquí la dirección de tu Cloudflare Worker,
+    // por ejemplo 'https://cotizaciones-horizon360.TU-USUARIO.workers.dev'. Vacío = solo correo. Ver LEEME-BANDEJA.md
+    const ENDPOINT_BANDEJA = 'https://cotizaciones-horizon360.horizon360.workers.dev';
+
     /* =====================================================================
        PRECIOS Y PAQUETES — edita solo esta sección para cambiar la cotización
        ===================================================================== */
@@ -681,11 +685,16 @@
       datos.Codigo_cotizacion = codigo;
       datos.Datos_para_sistema_contable = 'H360[' + btoa(bin) + ']';   // no borrar: el programa de contabilidad lee esta línea
       try {
-        const res = await fetch('https://formsubmit.co/ajax/' + DESTINO_FORMSUBMIT, {
+        // Correo y programa contable se envían a la vez; basta con que uno funcione para dar la solicitud por recibida.
+        const pCorreo = fetch('https://formsubmit.co/ajax/' + DESTINO_FORMSUBMIT, {
           method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify(datos)
-        });
-        if (!res.ok) throw new Error();
+        }).then(r => r.ok).catch(() => false);
+        const pSistema = ENDPOINT_BANDEJA
+          ? fetch(ENDPOINT_BANDEJA, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify(Object.assign({ _honey: f._honey.value }, paquete_sis)) }).then(r => r.ok).catch(() => false)
+          : Promise.resolve(false);
+        const [okCorreo, okSistema] = await Promise.all([pCorreo, pSistema]);
+        if (!okCorreo && !okSistema) throw new Error();
         msg.textContent = '¡Solicitud enviada! Te contactaremos pronto con la confirmación y la fecha.';
         msg.className = 'ok'; f.reset();
         if (pin) { pin.remove(); pin = null; punto = null; }
