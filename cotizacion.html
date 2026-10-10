@@ -1,21 +1,10 @@
 <!DOCTYPE html>
-<html lang="es-SV">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cotizar dron y recorridos 360° | Horizon 360 SV</title>
-  <meta name="description" content="Cotiza en línea con Horizon360sv: fotografía aérea, video con dron, recorridos virtuales 360° e inspecciones en El Salvador. Precio al instante.">
-  <link rel="canonical" href="https://horizon360sv-stack.github.io/Horizon360/cotizacion.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Horizon 360 SV">
-  <meta property="og:locale" content="es_SV">
-  <meta property="og:title" content="Cotizar dron y recorridos 360° | Horizon 360 SV">
-  <meta property="og:description" content="Cotiza en línea con Horizon360sv: fotografía aérea, video con dron, recorridos virtuales 360° e inspecciones en El Salvador. Precio al instante.">
-  <meta property="og:url" content="https://horizon360sv-stack.github.io/Horizon360/cotizacion.html">
-  <meta property="og:image" content="https://horizon360sv-stack.github.io/Horizon360/img/logo-completo.png">
-  <meta name="twitter:card" content="summary">
-  <meta name="geo.region" content="SV">
-  <meta name="geo.placename" content="El Salvador">
+  <title>Cotización | Horizon 360</title>
+  <meta name="description" content="Horizon 360: fotografía y videografía aérea con dron y recorridos virtuales 360°.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
@@ -124,12 +113,13 @@
     <div class="contenedor header-inner">
       <a class="logo" href="index.html">
         <img src="img/logo.png" alt="Logo Horizon 360">
-        <span>HORIZON 360<small>EL SALVADOR</small></span>
+        <span>HORIZON 360</span>
       </a>
       <nav class="nav" aria-label="Navegación principal">
         <a href="index.html">Inicio</a>
         <a href="cotizacion.html" class="activo" aria-current="page">Cotización</a>
         <a href="proyectos.html">Proyectos</a>
+        <a href="comunidad.html">Comunidad</a>
       </nav>
     </div>
   </header>
@@ -137,7 +127,7 @@
   <section class="pagina-titulo">
     <div class="contenedor">
       <h1>Solicita tu cotización</h1>
-      <p><strong>Servicio disponible en El Salvador. Precios en dólares (USD).</strong> Elige el servicio, escoge un paquete rápido o personalízalo, busca tu dirección en el mapa y listo. El precio se calcula solo y te respondo con la confirmación y la fecha.</p>
+      <p>Elige el servicio, escoge un paquete rápido o personalízalo, busca tu dirección en el mapa y listo. El precio se calcula solo y te respondo con la confirmación y la fecha.</p>
     </div>
   </section>
 
@@ -205,10 +195,10 @@
 
         <!-- 3. Ubicación -->
         <fieldset>
-          <legend>3. Ubicación en El Salvador</legend>
+          <legend>3. Ubicación</legend>
           <div class="campo"><label for="buscarDir">Busca la dirección o el lugar</label>
             <div class="buscador">
-              <input type="search" id="buscarDir" placeholder="Busca tu dirección en El Salvador" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugerencias" aria-autocomplete="list">
+              <input type="search" id="buscarDir" placeholder="Escribe tu dirección o lugar" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugerencias" aria-autocomplete="list">
               <ul class="sugerencias" id="sugerencias" role="listbox" hidden></ul>
             </div>
             <p class="paso-sub">Elige una sugerencia y el mapa se coloca solo. También puedes tocar el mapa para ajustar el punto exacto.</p>
@@ -218,8 +208,8 @@
               <button type="button" class="btn btn-sec" id="btnUbicacion">Usar mi ubicación actual</button>
               <span id="coords">Aún no has marcado un punto.</span>
             </div></div>
-          <div class="campo"><label for="direccion">Dirección del lugar (El Salvador)</label>
-            <input type="text" id="direccion" autocomplete="street-address" placeholder="Colonia, calle, municipio, departamento y punto de referencia" required></div>
+          <div class="campo"><label for="direccion">Dirección del lugar</label>
+            <input type="text" id="direccion" autocomplete="street-address" placeholder="Colonia, calle, municipio, punto de referencia" required></div>
         </fieldset>
 
         <!-- 4. Datos del cliente -->
@@ -227,7 +217,7 @@
           <legend>4. Tus datos</legend>
           <div class="campo"><label for="nombre">Nombre completo</label>
             <input type="text" id="nombre" autocomplete="name" required></div>
-          <div class="campo"><label for="telefono">Número de teléfono (El Salvador, +503)</label>
+          <div class="campo"><label for="telefono">Número de teléfono</label>
             <input type="tel" id="telefono" autocomplete="tel" placeholder="7000 0000" required></div>
           <div class="campo"><label for="correo">Correo electrónico</label>
             <input type="email" id="correo" autocomplete="email" required></div>
@@ -241,7 +231,7 @@
         <!-- Resumen automático -->
         <div class="estimado" aria-live="polite">
           <ul id="desglose"></ul>
-          <div class="total-fila"><span>Total estimado (USD)</span><strong id="total">$0.00</strong></div>
+          <div class="total-fila"><span>Total estimado</span><strong id="total">$0.00</strong></div>
           <div class="total-fila anticipo"><span>Anticipo del 50%</span><strong id="anticipo">$0.00</strong></div>
         </div>
         <p class="nota aviso" id="faltan" hidden></p>
@@ -725,15 +715,15 @@
   <footer class="footer">
     <div class="contenedor">
       <div class="footer-grid">
-        <div><h4>Horizon 360 SV</h4><p>Capturando el mundo desde una nueva dimensión.</p><p>Fotografía y video con dron en El Salvador.</p></div>
+        <div><h4>Horizon 360</h4><p>Capturando el mundo desde una nueva dimensión.</p></div>
         <div><h4>Enlaces rápidos</h4>
           <a href="index.html">Inicio</a><a href="index.html#servicios">Servicios</a>
-          <a href="cotizacion.html">Cotización</a><a href="proyectos.html">Proyectos</a></div>
+          <a href="cotizacion.html">Cotización</a><a href="proyectos.html">Proyectos</a><a href="comunidad.html">Comunidad</a></div>
         <div><h4>Síguenos</h4>
           <!-- Reemplaza # por tus enlaces reales -->
           <a href="#">Facebook</a><a href="#">Instagram</a><a href="#">YouTube</a><a href="#">TikTok</a></div>
       </div>
-      <p class="footer-copy">&copy; 2026 Horizon 360 SV (Horizon360sv) · El Salvador. Todos los derechos reservados.</p>
+      <p class="footer-copy">&copy; 2026 Horizon 360. Todos los derechos reservados.</p>
     </div>
   </footer>
 </body>

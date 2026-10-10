@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comunidad 360 | Horizon 360</title>
+  <meta name="description" content="Comunidad 360: comparte tu foto 360° y descubre lugares en 360° del mapa de la comunidad Horizon 360.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="comunidad.css">
+  <!-- Mapa (Leaflet + OpenStreetMap, gratuito) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+</head>
+<body>
+  <!-- ===== HEADER (igual en todas las páginas) ===== -->
+  <header class="header">
+    <div class="contenedor header-inner">
+      <a class="logo" href="index.html">
+        <img src="img/logo.png" alt="Logo Horizon 360">
+        <span>HORIZON 360</span>
+      </a>
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="cotizacion.html">Cotización</a>
+        <a href="proyectos.html">Proyectos</a>
+        <a href="comunidad.html" class="activo" aria-current="page">Comunidad</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="pagina-titulo">
+    <div class="contenedor">
+      <h1>Comunidad 360</h1>
+      <p>Tu lugar, visto en 360°. Envíanos tu foto 360° y súmala al mapa de la comunidad Horizon 360.</p>
+    </div>
+  </section>
+
+  <!-- ===== CÓMO PARTICIPAR ===== -->
+  <section class="seccion" id="participar">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Cómo participar</h2>
+      <p class="seccion-sub">Es gratis y toma un par de minutos.</p>
+      <ol class="cm-pasos">
+        <li><h3>Ten lista tu foto 360°</h3><p>Una foto esférica en formato JPG, tomada con tu cámara 360° o con una app como Google Street View.</p></li>
+        <li><h3>Envíala por correo</h3><p>Escribe a <strong>horizon360sv@gmail.com</strong> con el asunto <strong>Mi foto 360</strong>. Adjunta la foto e indica el lugar o la dirección y tu nombre.</p></li>
+        <li><h3>La publicamos</h3><p>La revisamos y la agregamos al mapa. Te escribimos con el enlace para que la compartas.</p></li>
+      </ol>
+      <div class="cm-participar">
+        <div class="cm-cta">
+          <h3>Envía tu foto ahora</h3>
+          <p>El botón abre tu correo con el asunto y un mensaje listos. Solo falta adjuntar la foto y completar tus datos.</p>
+          <a class="btn" href="mailto:horizon360sv@gmail.com?subject=Mi%20foto%20360&body=Hola%20Horizon%20360%2C%20quiero%20compartir%20mi%20foto%20360%C2%B0.%0A%0AMi%20nombre%20%28como%20quiero%20que%20aparezca%29%3A%0ALugar%20o%20direcci%C3%B3n%3A%0AReferencia%20%28opcional%29%3A%0A%0AAdjunto%20mi%20foto%20360%C2%B0%20en%20formato%20JPG.%0AAutorizo%20a%20Horizon%20360%20a%20publicarla%20en%20su%20sitio%20web.%20Declaro%20que%20la%20foto%20es%20m%C3%ADa.%0A">Escribir a Horizon 360</a>
+          <p class="cm-nota">Si tu foto pesa más de 25 MB, envíanos un enlace de Google Drive en lugar del archivo.</p>
+        </div>
+        <div class="cm-reglas">
+          <h3>Antes de enviar</h3>
+          <ul>
+            <li>La foto debe ser tuya.</li>
+            <li>Evita que se vean personas identificables, placas de vehículos o documentos.</li>
+            <li>En casas particulares mostramos solo la zona aproximada, no la dirección exacta.</li>
+            <li>Si quieres que retiremos tu foto, escríbenos y la quitamos.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALERÍA ===== -->
+  <section class="seccion servicios" id="galeria">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Fotos de la comunidad</h2>
+      <p class="seccion-sub" id="cm-cuenta">Cargando…</p>
+      <div id="cm-mapa" class="cm-mapa" role="application" aria-label="Mapa con las fotos 360° de la comunidad" hidden></div>
+      <div id="cm-grid" class="cm-grid"></div>
+      <p id="cm-vacio" class="cm-vacio" hidden></p>
+      <div class="cm-mas-caja"><button type="button" class="btn" id="cm-mas" hidden>Mostrar más fotos</button></div>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <script src="comunidad.js"></script>
+
+  <!-- ===== FOOTER (igual en todas las páginas) ===== -->
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer-grid">
+        <div><h4>Horizon 360</h4><p>Capturando el mundo desde una nueva dimensión.</p></div>
+        <div><h4>Enlaces rápidos</h4>
+          <a href="index.html">Inicio</a><a href="index.html#servicios">Servicios</a>
+          <a href="cotizacion.html">Cotización</a><a href="proyectos.html">Proyectos</a><a href="comunidad.html">Comunidad</a></div>
+        <div><h4>Síguenos</h4>
+          <!-- Reemplaza # por tus enlaces reales -->
+          <a href="#">Facebook</a><a href="#">Instagram</a><a href="#">YouTube</a><a href="#">TikTok</a></div>
+      </div>
+      <p class="footer-copy">&copy; 2026 Horizon 360. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>

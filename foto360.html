@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Atardecer Costa | Horizon 360</title>
-  <meta name="description" content="Horizon 360: fotografía y videografía aérea con dron y recorridos virtuales 360°.">
+  <title>Foto 360° | Comunidad 360 | Horizon 360</title>
+  <meta name="description" content="Mira esta foto 360° de la comunidad Horizon 360: arrastra para mirar alrededor.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="comunidad.css">
+  <link rel="stylesheet" href="lib/pannellum/pannellum.css">
 </head>
 <body>
   <!-- ===== HEADER (igual en todas las páginas) ===== -->
@@ -20,41 +22,34 @@
       <nav class="nav" aria-label="Navegación principal">
         <a href="index.html">Inicio</a>
         <a href="cotizacion.html">Cotización</a>
-        <a href="proyectos.html" class="activo" aria-current="page">Proyectos</a>
-        <a href="comunidad.html">Comunidad</a>
+        <a href="proyectos.html">Proyectos</a>
+        <a href="comunidad.html" class="activo" aria-current="page">Comunidad</a>
       </nav>
     </div>
   </header>
 
-  <section class="pagina-titulo">
+  <section class="seccion cm-foto">
     <div class="contenedor">
-      <h1>Atardecer Costa</h1>
-      <p>Fotografía aérea en hora dorada frente al mar.</p>
+      <p><a class="volver" href="comunidad.html#galeria">&larr; Volver a la comunidad</a></p>
+      <div id="cm-error" class="cm-vacio" hidden></div>
+      <div id="cm-contenido" hidden>
+        <h1 id="f-titulo" class="cm-titulo"></h1>
+        <p id="f-meta" class="cm-meta"></p>
+        <div class="cm-visor-caja"><div id="visor" aria-label="Foto 360°. Arrastra para mirar alrededor."></div></div>
+        <p class="cm-ayuda">Arrastra para mirar alrededor. Con dos dedos o la rueda del mouse haces zoom. Usa el botón de pantalla completa para verla mejor.</p>
+        <div class="cm-acciones">
+          <button type="button" class="btn" id="f-compartir">Compartir</button>
+          <a class="btn btn-sec" id="f-mapa" href="#" target="_blank" rel="noopener" hidden>Ver ubicación en el mapa</a>
+          <a class="btn btn-sec" href="comunidad.html#participar">Quiero aportar la mía</a>
+          <span id="f-aviso" class="cm-aviso" role="status"></span>
+        </div>
+        <div class="cm-nav" id="f-nav"></div>
+      </div>
     </div>
   </section>
 
-  <section class="seccion">
-    <div class="contenedor">
-      <p><a class="volver" href="proyectos.html">&larr; Volver a proyectos</a></p>
-      <div id="galeria-contenido"></div>
-    </div>
-  </section>
-
-  <!-- ===== CONFIGURACIÓN DE LA GALERÍA =====
-       1) Sube tus archivos a la carpeta indicada en "carpeta".
-       2) Escribe aquí sus nombres entre comillas (minúsculas, sin espacios ni acentos).
-       Ejemplo fotos:  fotos: ['foto1.jpg', 'foto2.jpg']
-       Ejemplo videos: videos: ['video1.mp4']   |   YouTube: youtube: ['ID_DEL_VIDEO'] -->
-  <script>
-    window.GALERIA = {
-      titulo: 'Atardecer Costa',
-      carpeta: 'media/atardecer-costa/',
-      fotos: [],
-      videos: [],
-      youtube: []
-    };
-  </script>
-  <script src="galeria.js"></script>
+  <script src="lib/pannellum/pannellum.js"></script>
+  <script src="foto360.js"></script>
 
   <!-- ===== FOOTER (igual en todas las páginas) ===== -->
   <footer class="footer">
