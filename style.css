@@ -152,8 +152,14 @@ select:focus-visible, textarea:focus-visible {
   .hero { padding: 3rem 0; }
   .header-inner { justify-content: center; }
 }
-@media (max-width: 480px) {
-  .nav a { padding: .45rem .7rem; font-size: .88rem; }
+@media (max-width: 600px) {
+  /* Encabezado compacto en celular: logo arriba y menú en UNA sola línea */
+  .header { position: static; }  /* no se queda fijo: más espacio para leer */
+  .header-inner { gap: .25rem; padding: .35rem 0 .45rem; }
+  .logo img { height: 34px; }
+  .logo span { font-size: .95rem; }
+  .nav { flex-wrap: nowrap; gap: .1rem; width: 100%; justify-content: space-between; }
+  .nav a { padding: .4rem .5rem; font-size: .8rem; white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; } .btn { transition: none; }
