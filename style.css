@@ -214,3 +214,14 @@ select:focus-visible, textarea:focus-visible {
 .lb-btn:hover { background: rgba(255,255,255,.3); }
 .lb-cerrar { top: 1rem; right: 1rem; }
 .lb-ant { left: 1rem; top: 50%; } .lb-sig { right: 1rem; top: 50%; }
+
+
+/* ===== Identidad de país: deja claro que el servicio es de El Salvador ===== */
+.logo span { display: flex; flex-direction: column; line-height: 1.1; }
+.logo span small { font-size: .62rem; letter-spacing: .34em; font-weight: 600; color: #9ad1a6; margin-top: 3px; }
+.hero .hero-pais { display: inline-block; background: rgba(255,255,255,.14); color: var(--blanco); padding: .35rem .9rem; border-radius: 999px;
+  font-size: .85rem; font-weight: 600; letter-spacing: .04em; margin: 0 0 1rem; max-width: none; }
+.franja-pais { background: var(--verde-claro); border-bottom: 1px solid #cfe0d3; }
+.franja-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem 2rem; padding: .9rem 0; color: var(--verde-oscuro); font-size: .95rem; text-align: center; }
+.franja-grid span { white-space: nowrap; }
+@media (max-width: 600px) { .franja-grid span { white-space: normal; } }
