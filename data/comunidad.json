@@ -1,6 +1,17 @@
 {
-  "actualizado": "2026-10-11T00:26:04.884Z",
+  "actualizado": "2026-10-11T05:06:08.972Z",
   "aportes": [
+    {
+      "id": "parque-americacentral-ngeo",
+      "titulo": "Parque AmericaCentral",
+      "autor": "Horizon360",
+      "lugar": "",
+      "lat": 13.699,
+      "lng": -89.194,
+      "fecha": "2026-10-10",
+      "foto": "comunidad/parque-americacentral-ngeo.jpg",
+      "mini": "comunidad/parque-americacentral-ngeo-m.jpg"
+    },
     {
       "id": "el-suspiro-sanmiguel-nni2",
       "titulo": "El suspiro SanMiguel",
