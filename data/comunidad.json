@@ -1,6 +1,17 @@
 {
-  "actualizado": "2026-10-11T05:06:08.972Z",
+  "actualizado": "2026-10-11T05:51:40.718Z",
   "aportes": [
+    {
+      "id": "el-panuelo-san-miguel-bifm",
+      "titulo": "El pañuelo, San Miguel",
+      "autor": "Raymundo Rivas",
+      "lugar": "El Pañuelo, San Miguel, El Salvador.",
+      "lat": 13.48,
+      "lng": -88.177,
+      "fecha": "2026-10-10",
+      "foto": "comunidad/el-panuelo-san-miguel-bifm.jpg",
+      "mini": "comunidad/el-panuelo-san-miguel-bifm-m.jpg"
+    },
     {
       "id": "parque-americacentral-ngeo",
       "titulo": "Parque AmericaCentral",
@@ -11,15 +22,6 @@
       "fecha": "2026-10-10",
       "foto": "comunidad/parque-americacentral-ngeo.jpg",
       "mini": "comunidad/parque-americacentral-ngeo-m.jpg"
-    },
-    {
-      "id": "el-suspiro-sanmiguel-nni2",
-      "titulo": "El suspiro SanMiguel",
-      "autor": "Raymundo",
-      "lugar": "San Miguel El Suspiro",
-      "fecha": "2026-10-10",
-      "foto": "comunidad/el-suspiro-sanmiguel-nni2.jpg",
-      "mini": "comunidad/el-suspiro-sanmiguel-nni2-m.jpg"
     },
     {
       "id": "centro-historico-adxy",
