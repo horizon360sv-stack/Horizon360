@@ -1,6 +1,15 @@
 {
-  "actualizado": "2026-10-10T23:17:52.157Z",
+  "actualizado": "2026-10-11T00:26:04.884Z",
   "aportes": [
+    {
+      "id": "el-suspiro-sanmiguel-nni2",
+      "titulo": "El suspiro SanMiguel",
+      "autor": "Raymundo",
+      "lugar": "San Miguel El Suspiro",
+      "fecha": "2026-10-10",
+      "foto": "comunidad/el-suspiro-sanmiguel-nni2.jpg",
+      "mini": "comunidad/el-suspiro-sanmiguel-nni2-m.jpg"
+    },
     {
       "id": "centro-historico-adxy",
       "titulo": "Centro Historico",
